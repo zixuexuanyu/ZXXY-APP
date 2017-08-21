@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" href="css/login.css" />
+		<script src="js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">设置</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="shezhi-a">
+		    	<ul class="mui-table-view">
+		    	        <li class="mui-table-view-cell">
+		    	            <a class="mui-navigate-right">
+	    	                	编辑资料
+		    	            </a>
+		    	        </li>
+		    	        <li class="mui-table-view-cell">
+		    	            <a class="mui-navigate-right">
+	    	                 	关于我们
+		    	            </a>
+		    	        </li>
+		    	        <li class="mui-table-view-cell">
+		    	            <a class="mui-navigate-right">
+		    	             	 版本更新
+		    	            </a>
+		    	        </li>
+		    	    </ul>
+		    	    <div class="zhuce-btn mui-table-view-cell">
+		    			<button>退出</button>
+		  		  </div>
+		    </div>
+		</div>
+		
+		<script src="js/castapp.js"></script>
+		<script>
+			ca.init();
+			var cell=ca.className('mui-table-view-cell');
+			cell[0].addEventListener('tap',function(){
+				ca.newInterface({
+					url:'info.html',
+					id:'info'
+				})
+			})
+//			cell[1].addEventListener('tap',function(){
+//				ca.newInterface({
+//					url:'info.html',
+//					id:'info'
+//				})
+//			})
+//			cell[2].addEventListener('tap',function(){
+//				ca.newInterface({
+//					url:'info.html',
+//					id:'info'
+//				})
+//			})
+		</script>
+	</body>
+</html>

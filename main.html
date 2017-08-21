@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+		<link rel="stylesheet" href="css/style.css" />
+		<style>
+    		body{
+    			background: #fff;
+    		}
+    		#nav-w{
+    			overflow: hidden;
+    			background: #b848ff !important;
+    			color:#fff;
+    			width: 100%;
+    		}
+    		#sliderSegmentedControl{
+    			width:87%;
+    		}
+    		#nav-w .mui-scroll .mui-control-item{
+    			padding: 0px 10px;
+    			font-size:13px;
+    		}
+    		#nav-w .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+    			color:#fff;
+    			font-size:14px;
+    		}
+    		#right-icon{
+    			display: inline-block;
+    			width:13%;
+    			height:38px;
+    			line-height: 38px;
+    			text-align: center;
+    		}
+    		#right-icon span{
+    			line-height: 38px;
+    			width: 50%;
+    			display: inline-block;
+    			text-align: center;
+    			font-size: 23px;
+    		}
+    		#nav-w{
+    			position: fixed;
+    			top:0
+    		}
+    	</style>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div id="nav-w">
+			    <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-pull-left">
+					<div class="mui-scroll" id="nav_list">
+						<a data="推荐" class="mui-control-item mui-active" href="javascript:;">
+							推荐
+						</a>
+						<a data="新闻" class="mui-control-item" href="javascript:;">
+							新闻
+						</a>
+						<a data="教育" class="mui-control-item" href="javascript:;">
+							教育
+						</a>
+						<a data="搞笑" class="mui-control-item" href="javascript:;">
+							搞笑
+						</a>
+						<a data="娱乐" class="mui-control-item" href="javascript:;">
+							娱乐
+						</a>
+						<a data="小品" class="mui-control-item" href="javascript:;">
+							小品
+						</a>
+			
+					</div>
+				</div>
+				<div  id="right-icon">
+					<span class="mui-icon iconfont icon-jiahao" id="tj"></span><span class="mui-icon iconfont icon-iconbig05" id="ss"></span>
+				</div>
+			</div>
+			<!--内容-->
+			<div class="shouye" style="margin-top: 38px;">
+				<div class="shouye-a">
+					<div class="shouye-a-l">
+						<h4>一个喊麦的天佑为啥火？白手起家到年入千万？</h4>
+					</div>
+					<div class="shouye-a-r">
+						<img src="img/you1.png" />
+					</div>
+					<p class="shouye-a-p"><span>东翌学院</span><span>100评论</span><span>12:12</span></p>
+				</div>
+				
+				<div class="shouye-b">
+					<h4>欢迎大家来到东翌学院</h4>
+					<img src="img/san1.png"/><img src="img/san2.png"/><img src="img/san3.png"style="margin-right: 0px;">
+					<p class="shouye-a-p"><span>东翌学院</span><span>100评论</span><span>12:12</span></p>
+				</div>
+				
+				<div class="shouye-b shouye-b-img">
+					<h4>这是一大张图片</h4>
+					<img src="img/da1.png"/>
+					<p class="shouye-a-p"><span>东翌学院</span><span>100评论</span><span>12:12</span></p>
+				</div>
+				
+				<div class="shouye-b">
+					<h4>欢迎大家来到东翌学院</h4>
+					<p class="shouye-a-p"><span>东翌学院</span><span>100评论</span><span>12:12</span></p>
+				</div>
+			</div>
+			
+		</div>
+		<script src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/castapp.js" ></script>
+		<script type="text/javascript">
+			ca.init();
+			var tj=ca.id("tj");
+			var ss=ca.id("ss");
+			var xq=ca.id("xq")
+			tj.addEventListener('tap',function(){
+				ca.newInterface({
+					url:'channel_add.html',
+					id:"channel_add"
+				})
+			})
+			ss.addEventListener('tap',function(){
+				ca.newInterface({
+					url:'search.html',
+					id:"search"
+				})
+			})
+//			xq.addEventListener('tap',function(){
+//				ca.newInterface({
+//					url:'xiangqing.html',
+//					id:'xiangqing',
+//				})
+//			});
+		</script>
+	</body>
+</html>

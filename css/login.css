@@ -1,0 +1,83 @@
+html,body,.login-bg{
+	height: 100%;
+}
+/*注册*/
+.login-bg{
+	background-image: url(../img/login.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.zhuce{
+	/*margin-top: 15px;*/
+	width: 80%;
+	margin: 0 auto;
+	padding-top: 35%;
+}
+.denglu{
+	padding-top: 40%;
+}
+.zhaohuimima{
+	padding-top: 30%;
+}
+.zhuce-title{
+	font-size: 24px;
+	text-align: center;
+	margin-bottom: 40px;
+	color: #fff;
+	font-weight: 400;
+}
+.zhuce form{
+	background: none;
+}
+.zhuce .mui-input-row{
+	background: rgba(0,0,0,.2);
+	margin-bottom: 20px;
+	border-radius: 5px;
+}
+.mui-input-row label{
+	font-size: 14px;
+	color: #fff;
+}
+.mui-input-row input{
+	font-size: 12px;
+	color: #fff;
+}
+.btn{
+	position: absolute;
+	right: 0;
+	top: 5px;
+	border: 0;
+	color: #e2c0f8;
+	font-size: 14px;
+	background: none;
+}
+.zhuce-btn{
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 20px;
+	/*padding: 0 20px;*/
+}
+.zhuce-btn button{
+	background: #b848ff;
+	border: 0;
+	width: 100%;
+	color: #fff;
+	padding: 10px 0;
+	
+}
+.zhuce-btn p{
+	text-align: center;
+	margin: 40px 0 0;
+	color: #ccc;
+	font-size: 12px;
+}
+.zhuce-btn a{
+	color: #ddd;
+	font-size: 12px;
+	text-decoration: underline;
+}
+.denglu-btn a{
+	margin: 0 10px;
+}

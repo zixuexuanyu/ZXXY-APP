@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.min.js"></script>
+		<style>
+			#img_list{
+				overflow: hidden;
+				padding-top: 10px;
+				position: relative;
+				top:-10px
+			}
+			#add_img{
+				height:50px;
+				width:50px;
+				text-align: center;
+				line-height: 50px;
+				font-size: 20px;;
+				color: #000;
+				background: #ddd;
+				position: relative;
+				float:left;
+				margin-right: 10px;
+			}
+			.img_div{
+				width: 50px;
+				height:50px;
+				position: relative;
+				float:left;
+				margin-right: 10px;
+			}
+			.img_div img{
+				width: 50px;
+				height:50px;
+			}
+			.img_div span{
+				height:12px;
+				width:12px;
+				line-height: 12px;
+				text-align: center;
+				background: red;
+				border-radius: 50%;
+				color:#fff;
+				display: block;
+				position: absolute;
+				top:-5px;
+				right:-5px;
+				z-index: 9999;;
+				font-size: 13px;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">发文章</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="fwz-a">
+		    	<input type="text" class="info" placeholder="请输入您的标题">
+		    	 <form action="javascript:;">
+		            <textarea cols="80" class="info"  rows="5" placeholder="请输入您的内容"></textarea>
+		        </form>
+		        <div >
+		        	<div id="img_list" style="float:left;">
+		        		<!--<div class="img_div">
+		        		<span class="del">×</span>
+		        		<img src="img/default_head_img.jpg"/>
+		        	</div>-->
+		        	</div>
+		        	<!--<div class="img_div">
+		        		<span class="del">×</span>
+		        		<img src="img/default_head_img.jpg"/>
+		        	</div>-->
+		        	<div id="add_img">
+		        		+
+		        	</div>
+		        	<div style="clear: both;margin-bottom: 15px;"></div>
+		        </div>
+		         <form  action="javascript:;">
+		            <select class="info">
+		                <option value="请选择">请选择</option>
+		                <option value="新闻">新闻</option>
+		                <option value="教育">教育</option>
+		                <option value="搞笑">搞笑</option>
+		                <option value="娱乐">娱乐</option>
+		                <option value="小品">小品</option>
+		            </select>	
+		        </form>
+		        <button class="yi-btn" id="btn">发表</button>
+		    </div>
+		</div>
+	</body>
+	<script src="js/castapp.js"></script>
+	<script>
+		
+	</script>
+</html>

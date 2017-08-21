@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<link rel="stylesheet" href="css/login.css" />
+		<script src="js/mui.min.js"></script>
+		<style>
+		.mui-table-view-cell{
+			position: relative !important;
+			z-index: 99999;
+		}
+			.mui-table-view-cell label{
+				width: 20%;
+				
+				position: relative !important;
+				top:10px !important;
+				font-size: 14px;
+				color:#666;
+			}
+			.mui-table-view-cell img{
+				height:48px;
+				width:48px;
+				border-radius: 10px;
+				float:right;
+			}
+			.mui-table-view-cell input{
+				width: 70% !important;
+				float:right;
+				margin: 0 !important;
+				border:0px;
+				text-align: right;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">编辑资料</h1>
+		</header>
+		<div class="mui-content">
+		    <div class="shezhi-a">
+		    	<ul class="mui-table-view">
+		    	 	<li class="mui-table-view-cell">
+		    	 		<label>头像</label>
+		    	 		<img id="img" src="img/default_head_img.jpg"/>
+		    	 	</li>
+		    	 	<li class="mui-table-view-cell">
+		    	 		<label>用户名</label>
+		    	 		<input type="text" placeholder="" />
+		    	 	</li>
+		    	 	<li class="mui-table-view-cell">
+		    	 		<label>性别</label>
+		    	 		<input readonly="readonly" type="text" placeholder="" />
+		    	 	</li>
+		    	 	<li class="mui-table-view-cell">
+		    	 		<label>描述</label>
+		    	 		<input type="text" placeholder="" />
+		    	 	</li>
+	    	    </ul>
+	    	    <div class="zhuce-btn mui-table-view-cell">
+	    			<button>保存</button>
+	  		  </div>
+		    </div>
+		</div>
+		
+		<script src="js/castapp.js"></script>
+		<script>
+			ca.init();
+			var img=ca.id('img');
+			var cell=ca.className('mui-table-view-cell');
+			var input=ca.tagName('input');
+			
+			
+			var user_data=JSON.parse(localStorage.getItem('user_data'));
+			img.src=user_data.head_img;
+			input[0].value=user_data.name;
+			input[1].value=user_data.sex;
+			input[2].value=user_data.about;
+			
+			cell[0].addEventListener('tap',function(){
+				//只要第一个是照相机、第二个是相册就可以调用，
+				var arr=['照相机','相册'];
+				ca.actionSheet(arr,{
+					succFn:function(data){
+						console.log(data);
+//						alert(data);
+						img.src='http://peipao.dongyixueyuan.com'+data;
+					},
+					isUpload:true,
+					uploadUrl:'http://peipao.dongyixueyuan.com/upload_file.php'
+				})
+			})
+			
+			cell[2].addEventListener('tap',function(){
+				var arr=['男','女'];
+				ca.actionSheet(arr,{
+					succFn:function(index){
+//						alert(index)
+						input[1].value=arr[index];
+					}
+				})
+			})
+			
+			cell[4].addEventListener('tap',function(){
+				var head_img=img.src;
+				var name=input[0].value;
+				var sex=input[1].value;
+				var about=input[2].value;
+				
+				
+				
+				if(name==''){
+					ca.prompt('请输入用户名');
+					return;
+				}
+				var login_phone=localStorage.getItem('login_phone');
+				var request_url=localStorage.getItem('request_url');
+				ca.get({
+					url:request_url+'User/update_info',
+					data:{
+						phone:login_phone,
+						head_img:head_img,
+						name:name,
+						sex:sex,
+						about:about
+						
+					},
+					succFn:function(data){
+//						alert(data);
+						if(data){
+							ca.prompt('更新成功！');
+							
+							var arr=['wode'];
+							ca.sendNotice(arr,'update',{});
+							
+							ca.closeCurrentInterface();
+						}else{
+							ca.prompt('更新失败，请重试！');
+						}
+					}
+				})
+			})
+			
+		</script>
+	</body>
+</html>

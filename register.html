@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="stylesheet" href="css/login.css" />
+		<script src="js/mui.min.js"></script>
+	</head>
+	<body>
+		<!--header-->
+		<!--<header class="mui-bar mui-bar-nav header-bg">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">注册</h1>
+		</header>-->
+		<!--body-->
+		<div class="mui-content login-bg">
+			
+		    <div class="zhuce">
+		    	<h1 class="zhuce-title">注册</h1>
+		    	<!--表单-->
+			    <form class="mui-input-group" action="javascript:;">
+			        <div class="mui-input-row">
+			            <label>手机号</label>
+			            <input type="text" class="mui-input-clear" placeholder="">
+			        </div>
+			        <div class="mui-input-row">
+			            <label>验证码</label>
+			            <input type="text" class="mui-input-clear" placeholder="">
+			            <button class="btn" id="send_code">获取验证码</button>
+			        </div>
+			        <div class="mui-input-row">
+			            <label>密码</label>
+			            <input type="password" class="mui-input-clear" placeholder="">
+			        </div>
+			    </form>
+		    </div>
+		    <div class="zhuce-btn">
+		    	<button id="btn">注册</button>
+		    	<p>已有账号，去<a href="javascript:;" class="mui-action-back">登录</a></p>
+		    </div>
+		</div>
+		<script type="text/javascript" src="js/castapp.js" ></script>
+		<script type="text/javascript">
+			ca.init();
+			var btn=ca.id("btn");
+			var send_code=ca.id("send_code");
+			var input=ca.tagName('input');
+			var code='';
+			send_code.addEventListener('tap',function(){
+				if(send_code.innerHTML!='获取验证码'){
+					return;
+				}
+				var phone=input[0].value;
+				if(phone==''){
+					ca.prompt("手机号码不能为空");
+					return;
+				}
+				if(phone.length!=11){
+					ca.prompt("手机号码位数不正确");
+					return;
+				}
+				var myreg=/^1[3|4|5|8][0-9]\d{4,8}$/;
+				if(!myreg.test(phone)){
+					ca.prompt("请输入有效的手机号码");
+					return;
+				}
+				code=ca.getIdCode();
+				ca.get({
+					url:'http://www.dongyi100.com/send_code_do',
+					data:{
+						phone:phone,
+						code:code
+					},
+					succFn:function(data){
+						if(data==1){
+							ca.prompt('发送成功');
+							
+							var num=60;
+							var timer=setInterval(function(){
+								num--;
+								if(num==0){
+									send_code.innerHTML='获取验证码';
+									clearInterval(timer);
+								}else{
+									send_code.innerHTML=num+'s';
+								}
+							},1000)
+						}else{
+							ca.prompt('发送失败,请重试');
+						}
+					}
+				})
+			})
+			
+			btn.addEventListener('tap',function(){
+				var phone=input[0].value;
+				var input_code=input[1].value;
+				var password=input[2].value;
+				var phone=input[0].value;
+				if(phone==''){
+					ca.prompt("手机号码不能为空");
+					return;
+				}
+				if(phone.length!=11){
+					ca.prompt("手机号码位数不正确");
+					return;
+				}
+				var myreg=/^1[3|4|5|8][0-9]\d{4,8}$/;
+				if(!myreg.test(phone)){
+					ca.prompt("请输入有效的手机号码");
+					return;
+				}
+//				if(input_code==''){
+//					ca.prompt('验证码不能为空');
+//					return;
+//				}
+//				if(input_code!=code){
+//					ca.prompt('验证码不正确');
+//					return;
+//				}
+				if(password==''){
+					ca.prompt('密码不能为空');
+					return;
+				}
+				localStorage.setItem('request_url','http://192.168.0.105/www/ZXXY/index.php/')
+				var url=localStorage.getItem('request_url')+'User/register';
+				ca.get({
+					url:url,
+					data:{
+						phone:phone,
+						password:password
+					},
+					succFn:function(data){
+//						alert(data);
+						console.log(data);
+						if(data>0){
+							ca.prompt('注册成功！');
+							localStorage.setItem('login_phone',phone);
+							//2,注册过以后需要吧信息更新到我们的用户中心里
+							var arr = ['wode'];
+							ca.sendNotice(arr,'update',{});
+							//3,跳转到主界面
+							ca.getStartInterface(function(obj){
+								obj.show();
+							})	
+							
+						}else if(data==-1){
+							ca.prompt('手机号已存在！');
+						}else{
+							ca.prompt('注册失败，请重试！');
+						}
+					}
+				})
+				
+			})
+			
+		</script>
+	</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<script src="js/mui.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">意见反馈</h1>
+		</header>
+		<div class="mui-content">
+			 <form action="javascript:;">
+	            <textarea cols="80" rows="5" id="text" placeholder="请输入您的意见"></textarea>
+	        </form>
+	        <button class="yi-btn" id="btn">提交</button>
+		</div>
+	</body>
+	<script src="js/castapp.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		ca.init();
+		var btn=ca.id('btn');
+		var text=ca.id('text');
+		btn.addEventListener('tap',function(){
+			var content=text.value;
+			if(content==''){
+				ca.prompt('多少写点意见吧！');
+				return;
+			}
+			
+			var login_phone=localStorage.getItem('login_phone');
+			var request_url=localStorage.getItem('request_url');
+			ca.get({
+				url:request_url+'User/add_feedback',
+				data:{
+					phone:login_phone,
+					content:content
+				},
+				succFn:function(data){
+//					alert(data)
+					if(data>0){
+						ca.prompt('提交成功！');
+						ca.closeCurrentInterface();
+					}else{
+						ca.prompt('提交失败，请重试！');
+					}
+				}
+			})
+		})
+		
+	</script>
+</html>

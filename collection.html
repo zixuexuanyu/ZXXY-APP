@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.min.js"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav header-bg">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">收藏</h1>
+		</header>	
+		<div class="mui-content">
+			<div id="list">
+				
+			</div>
+		</div>
+	</body>
+	<script src="js/castapp.js"></script>
+	<script>
+		ca.init();
+		var list = ca.id('list');
+		var login_phone = localStorage.getItem('login_phone');
+		var request_url = localStorage.getItem('request_url');
+		
+		ca.get({
+			url:request_url+'User/get_coll',
+			data:{
+				phone:login_phone
+			},
+			succFn:function(data){
+				var json = JSON.parse(data);
+				for(var a in json){
+							
+							var user = json[a].user;
+							
+							var name = '';
+							if(user.name){
+								name = user.name;
+							}else{
+								name = user.phone;
+							}
+							
+							
+							var tmpl = '';
+							//有图片
+							if(json[a]['img']){
+								var img_arr = json[a]['img'].split('-');
+								//图片是不是大于等于3张,如果大于等于3张我用模板2
+								if(img_arr.length > 2){
+									
+									var i_str = '';
+									var t = '';
+									for(var s=0;s<img_arr.length;s++){
+										if(s == img_arr.length-1){
+											t += '<img src="'+img_arr[s]+'" style="margin-right: 0px;"/>';
+										}else{
+											t += '<img src="'+img_arr[s]+'"/>';
+										}
+									}
+									
+									
+									tmpl = '<div did="'+json[a].id+'" class="sy-b cell">'
+											+'	<h4>'+json[a].title+'</h4>'
+											+t
+											+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+											+'</div>'; 
+								}else{
+									
+									var code = ca.getIdCode(1);
+									if(code < 5){
+										tmpl = '<div did="'+json[a].id+'" class="sy-a cell" id="xq">'
+												+'	<div class="sy-a-l">'
+												+'		<h4>'+json[a].title+'</h4>'
+												+'	</div>'
+												+'	<div class="sy-a-r">'
+												+'		<img src="'+json[a].img+'"/>'
+												+'	</div>'
+												+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+												+'</div>';
+									}else{
+										tmpl = '<div did="'+json[a].id+'" class="sy-b sy-b-img cell">'
+												+'	<h4>'+json[a].title+'</h4>'
+												+'	<img src="'+json[a].img+'"/>'
+												+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+												+'</div>';
+									}
+
+									
+								}
+								
+							}else{
+							//没有图片
+								tmpl = '<div did="'+json[a].id+'" class="sy-b cell">'
+										+'	<h4>'+json[a].title+'</h4>'
+										+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+										+'</div>';
+							}
+							
+							
+							
+							
+							//第一个和第三个都是图片只有1张
+							
+							list.innerHTML += tmpl;
+							//第二个模板是图片有多个的，至少大于等于3个
+							
+						}
+						
+						click_event();
+			}
+		});
+		
+		function click_event(){
+			var cell = ca.className('cell');
+			for(var a=0;a<cell.length;a++){
+				cell[a].addEventListener('tap',function(){
+					var did = this.getAttribute('did');
+					localStorage.setItem('did',did);
+					ca.newInterface({
+						url:'xiangqing.html',
+						id:'xiangqing',
+					})
+					
+				})
+			}
+		}
+		
+		
+		
+	</script>
+</html>

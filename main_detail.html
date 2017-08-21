@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+		<link rel="stylesheet" type="text/css" href="css/style.css"/>
+		<script src="js/mui.min.js"></script>
+	</head>
+	<body>
+		<div class="mui-content">
+			<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+			    <div class="mui-scroll sy" id="list" style="min-height: 100px;">
+			        <!--数据列表-->
+			        <ul class="mui-table-view mui-table-view-chevron">
+			            <li class="mui-table-view-cell">1</li>
+			        </ul>
+			    </div>
+			</div>
+			<!--内容页面-->
+			
+		</div>
+		<script type="text/javascript" src="js/castapp.js" ></script>
+		<script type="text/javascript">
+			ca.init();
+
+			
+			var tj=ca.id('tj');
+			var ss=ca.id('ss');
+			var xq=ca.id('xq');
+			var list = ca.id('list');
+			
+			var path = 1;
+			
+			//pullrefresh 容器
+			ca.refreshLoad('pullrefresh',function(clearLoad){
+				//从新拿最新的数据
+//				alert('下拉刷新咯');
+				list.innerHTML = '';
+				path = 1;
+				get_topic('推荐');
+				//清除更新
+				clearLoad();
+				
+			},function(dataState){
+				path++;
+//				alert('上拉加载了');
+				//dataState(true);
+				get_topic('推荐',dataState);
+				
+			});
+			
+//			tj.addEventListener('tap',function(){
+//				ca.newInterface({
+//					url:'tianjiapindao.html',
+//					id:'tianjiapindao',
+//				})
+//			})
+//			ss.addEventListener('tap',function(){
+//				ca.newInterface({
+//					url:'sosuo.html',
+//					id:'sosuo',
+//				})
+//			})
+//			xq.addEventListener('tap',function(){
+//				ca.newInterface({
+//					url:'xiangqing.html',
+//					id:'xiangqing',
+//				})
+//			});
+			var nav_btn = ca.className('mui-control-item');
+			for(var a=0;a<nav_btn.length;a++){
+				nav_btn[a].addEventListener('tap',function(){
+					var data = this.getAttribute('data');
+					list.innerHTML = '';
+					get_topic(data);
+				})
+			}	
+			
+			ca.receiveNotice('update_topic',function(){
+				list.innerHTML = '';
+				get_topic('推荐');
+			});
+			
+			ca.receiveNotice('update',function(event){
+				var name = event.detail.name;
+				list.innerHTML = '';
+				get_topic(name,'');
+				
+			})
+			
+			get_topic('推荐','');
+			function get_topic(class_data,dataState){
+				
+				var request_url = localStorage.getItem('request_url');	
+				ca.get({
+					url:request_url+'User/get_topic',
+					data:{
+						class:class_data,
+						path:path
+					},
+					succFn:function(data){
+						var json = JSON.parse(data);
+						
+						
+						if(json){
+							dataState && dataState(false);
+						}
+						for(var a in json){
+							
+							var user = json[a].user;
+							var name = '';
+							if(user.name){
+								name = user.name;
+							}else{
+								name = user.phone;
+							}
+							
+							
+							var tmpl = '';
+							//有图片
+							if(json[a]['img']){
+								var img_arr = json[a]['img'].split('-');
+								//图片是不是大于等于3张,如果大于等于3张我用模板2
+								if(img_arr.length > 2){
+									
+									var i_str = '';
+									var t = '';
+									for(var s=0;s<img_arr.length;s++){
+										if(s == img_arr.length-1){
+											t += '<img src="'+img_arr[s]+'" style="margin-right: 0px;"/>';
+										}else{
+											t += '<img src="'+img_arr[s]+'"/>';
+										}
+									}
+									
+									
+									tmpl = '<div did="'+json[a].id+'" class="sy-b cell">'
+											+'	<h4>'+json[a].title+'</h4>'
+											+t
+											+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+											+'</div>'; 
+								}else{
+									
+									var code = ca.getIdCode(1);
+									if(code < 5){
+										tmpl = '<div did="'+json[a].id+'" class="sy-a cell" id="xq">'
+												+'	<div class="sy-a-l">'
+												+'		<h4>'+json[a].title+'</h4>'
+												+'	</div>'
+												+'	<div class="sy-a-r">'
+												+'		<img src="'+json[a].img+'"/>'
+												+'	</div>'
+												+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+												+'</div>';
+									}else{
+										tmpl = '<div did="'+json[a].id+'" class="sy-b sy-b-img cell">'
+												+'	<h4>'+json[a].title+'</h4>'
+												+'	<img src="'+json[a].img+'"/>'
+												+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+												+'</div>';
+									}
+
+									
+								}
+								
+							}else{
+							//没有图片
+								tmpl = '<div did="'+json[a].id+'" class="sy-b cell">'
+										+'	<h4>'+json[a].title+'</h4>'
+										+'	<p class="sy-a-p"><span>'+name+'</span><span>'+json[a].reply_number+'评论</span><span>'+json[a].time+'</span></p>'
+										+'</div>';
+							}
+							
+							
+							
+							
+							//第一个和第三个都是图片只有1张
+							
+							list.innerHTML += tmpl;
+							//第二个模板是图片有多个的，至少大于等于3个
+							
+						}
+						
+						click_event();
+						
+					}
+				})
+				
+			}
+			
+			
+			function click_event(){
+				var cell = ca.className('cell');
+				for(var a=0;a<cell.length;a++){
+					cell[a].addEventListener('tap',function(){
+						var did = this.getAttribute('did');
+						localStorage.setItem('did',did);
+						ca.newInterface({
+							url:'xiangqing.html',
+							id:'xiangqing',
+						})
+						
+					})
+				}
+			}
+			
+			
+		</script>
+	</body>
+</html>
